@@ -25,6 +25,13 @@
             "projectName": "quizMicroservice",
              "args": "--server.port=8081"
 
+        },
+        {
+            "type":"java",
+            "name":"Eureka Registry",
+            "request":"launch",
+            "mainClass":"com.eureka.registry.RegistryApplication",
+            "projectName":"registry",
         }
     ]
 }
