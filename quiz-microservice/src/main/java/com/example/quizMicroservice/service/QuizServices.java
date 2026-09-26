@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.quizMicroservice.feign.QuizInterface;
 import com.example.quizMicroservice.model.Question;
 import com.example.quizMicroservice.model.QuestionWrapper;
 import com.example.quizMicroservice.model.Quiz;
@@ -23,15 +24,15 @@ import com.example.quizMicroservice.repository.QuizRepo;
 public class QuizServices {
     @Autowired
     public QuizRepo quizDao;
- 
+    @Autowired
+    QuizInterface quizInterface;
 
     public ResponseEntity<String> creatQuiz(String title, int numQ, String category) {
 
-        Quiz quiz = new Quiz();
-        // List<Question> randomQuestions = questionRepo.findRandomQuestionsByCategory(category, numQ);
-        // quiz.setQuizTitle(title);
-        // quiz.setQuestions(randomQuestions);
-        // quizDao.save(quiz);
+        List<Integer> questions = quizInterface.getQuestionsByCategory(category,numQ).getBody();
+        Quiz quiz = Quiz.builder().quizTitle(title).questionIds(questions).build();
+        quizDao.save(quiz);
+        
         return new ResponseEntity<>("created", HttpStatus.OK);
     }
 
