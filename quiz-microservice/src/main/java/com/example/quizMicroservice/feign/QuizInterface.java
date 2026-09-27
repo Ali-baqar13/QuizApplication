@@ -14,12 +14,12 @@ import com.example.quizMicroservice.model.Response;
 
 @FeignClient("Question-Service")
 public interface QuizInterface {
-    @GetMapping ("generate")
+    @GetMapping ("question/generate")
     public ResponseEntity<List<Integer>> getQuestionsByCategory(@RequestParam String categoryName, @RequestParam int numberOfQuestions) ;
-    @PostMapping("getQuestion")
+    @PostMapping("question/getQuestion")
     public ResponseEntity<List<QuestionWrapper>> getQuestionByIds(@RequestBody List<Integer> questionIds) ;
 
-    @PostMapping("getScore")
+    @PostMapping("question/getScore")
     public ResponseEntity<Integer> getScore(List<Response> responses);
 }
 

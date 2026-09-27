@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.quizMicroservice.Dto.QuizDto;
 import com.example.quizMicroservice.model.QuestionWrapper;
 import com.example.quizMicroservice.model.Response;
 import com.example.quizMicroservice.service.QuizServices;
@@ -27,22 +28,22 @@ public class QuizController {
     
 
     @PostMapping("create")
-    public ResponseEntity<String> createQuiz(@RequestParam int numQ, @RequestParam String category, @RequestParam String title) {
+    public ResponseEntity<String> createQuiz(@RequestBody QuizDto quizDto) {
 
 
-        return quizService.creatQuiz(title, numQ, category);
+        return quizService.creatQuiz(quizDto.getTitle(), quizDto.getNumQ(), quizDto.getCategory());
     }
 
-    @GetMapping("get-quiz/{id}")
-    public ResponseEntity<List<QuestionWrapper>> getQuiz(@PathVariable int id) {
-        return quizService.getQuizQuestions(id);
+    // @GetMapping("get-quiz/{id}")
+    // public ResponseEntity<List<QuestionWrapper>> getQuiz(@PathVariable int id) {
+    //     return quizService.getQuizQuestions(id);
 
-    }
+    // }
 
-    @PostMapping("validate/{id}")
-    public ResponseEntity<Integer> validateCount(@PathVariable int id, @RequestBody List<Response> response) {
-        return quizService.getScore(id, response);
-    }
+    // @PostMapping("validate/{id}")
+    // public ResponseEntity<Integer> validateCount(@PathVariable int id, @RequestBody List<Response> response) {
+    //     return quizService.getScore(id, response);
+    // }
     
     
 }

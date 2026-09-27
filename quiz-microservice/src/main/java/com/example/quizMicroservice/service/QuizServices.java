@@ -36,53 +36,53 @@ public class QuizServices {
         return new ResponseEntity<>("created", HttpStatus.OK);
     }
 
-    public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(int id) {
+    // public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(int id) {
 
-        Optional<Quiz> quiz = quizDao.findById(id);
-        if (quiz.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        // there must be que=estion Wrapper
-        List<Question> QuestionFromDb = quiz.get().getQuestions();
-        List<QuestionWrapper> QuestionsForUser = new ArrayList<>();
+    //     Optional<Quiz> quiz = quizDao.findById(id);
+    //     if (quiz.isEmpty()) {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    //     // there must be que=estion Wrapper
+    //     List<Question> QuestionFromDb = quiz.get().getQuestions();
+    //     List<QuestionWrapper> QuestionsForUser = new ArrayList<>();
 
-        for (Question q : QuestionFromDb) {
-            QuestionWrapper qWrapper = new QuestionWrapper(q.getId(), q.getTitle(), q.getOptions1(), q.getOptions2(),
-                    q.getOptions3(), q.getOptions4());
-            QuestionsForUser.add(qWrapper);
-        }
+    //     for (Question q : QuestionFromDb) {
+    //         QuestionWrapper qWrapper = new QuestionWrapper(q.getId(), q.getTitle(), q.getOptions1(), q.getOptions2(),
+    //                 q.getOptions3(), q.getOptions4());
+    //         QuestionsForUser.add(qWrapper);
+    //     }
 
-        return new ResponseEntity<>(QuestionsForUser, HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(QuestionsForUser, HttpStatus.OK);
+    // }
 
-    public ResponseEntity<Integer> getScore(int id, List<Response> response) {
+    // public ResponseEntity<Integer> getScore(int id, List<Response> response) {
 
-        Optional<Quiz> quiz = quizDao.findById(id);
-        if (quiz.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        if (response == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        List<Question> questions = quiz.get().getQuestions();
-        Set<Integer> answeredIds = new HashSet<>();
-        int count = 0;
-        for (Response r : response) {
-            if (r == null || r.getResponse() == null || !answeredIds.add(r.getId())) {
-                return ResponseEntity.badRequest().build();
-            }
-            Optional<Question> question = questions.stream()
-                    .filter(q -> q.getId() == r.getId()).findFirst();
-            if (question.isEmpty()) {
-                return ResponseEntity.badRequest().build();
-            }
-            if (r.getResponse().equals(question.get().getRightAnswer())) {
-                count++;
-            }
-        }
+    //     Optional<Quiz> quiz = quizDao.findById(id);
+    //     if (quiz.isEmpty()) {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    //     if (response == null) {
+    //         return ResponseEntity.badRequest().build();
+    //     }
+    //     List<Question> questions = quiz.get().getQuestions();
+    //     Set<Integer> answeredIds = new HashSet<>();
+    //     int count = 0;
+    //     for (Response r : response) {
+    //         if (r == null || r.getResponse() == null || !answeredIds.add(r.getId())) {
+    //             return ResponseEntity.badRequest().build();
+    //         }
+    //         Optional<Question> question = questions.stream()
+    //                 .filter(q -> q.getId() == r.getId()).findFirst();
+    //         if (question.isEmpty()) {
+    //             return ResponseEntity.badRequest().build();
+    //         }
+    //         if (r.getResponse().equals(question.get().getRightAnswer())) {
+    //             count++;
+    //         }
+    //     }
 
-        return new ResponseEntity<>(count, HttpStatus.OK);
+    //     return new ResponseEntity<>(count, HttpStatus.OK);
 
-    }
+    // }
 
 }
