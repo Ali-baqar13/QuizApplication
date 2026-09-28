@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.microservices.microservice.model.Question;
 import com.microservices.microservice.model.QuestionWrapper;
+import com.microservices.microservice.model.Response;
 import com.microservices.microservice.repository.QuestionRepo;
 
 
@@ -72,5 +73,22 @@ public class QuestionService {
             
         // }
         // return new ResponseEntity<>(questions, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Integer> getScore(List<Response> response) {
+        Integer count=0;
+        for(Response responsed:response){
+           Question q = questionRepository.findById(responsed.getId()).get();
+           
+           if(responsed.getResponse().equals(q.getRightAnswer())){
+            count++;
+
+           }
+           
+           
+           
+        }
+        return new ResponseEntity<>(count, HttpStatus.OK);
+        
     }
 }

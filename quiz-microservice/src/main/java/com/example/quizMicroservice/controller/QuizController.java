@@ -40,10 +40,10 @@ public class QuizController {
 
     }
 
-    // @PostMapping("validate/{id}")
-    // public ResponseEntity<Integer> validateCount(@PathVariable int id, @RequestBody List<Response> response) {
-    //     return quizService.getScore(id, response);
-    // }
+    @PostMapping("validate/{id}")
+    public ResponseEntity<Integer> validateCount(@PathVariable int id, @RequestBody List<Response> response) {
+        return quizService.getScore(id, response);
+    }
     
     
 }

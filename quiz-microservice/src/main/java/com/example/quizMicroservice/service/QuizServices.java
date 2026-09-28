@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.quizMicroservice.feign.QuizInterface;
 import com.example.quizMicroservice.model.QuestionWrapper;
 import com.example.quizMicroservice.model.Quiz;
+import com.example.quizMicroservice.model.Response;
 import com.example.quizMicroservice.repository.QuizRepo;
 
 
@@ -58,34 +59,22 @@ public class QuizServices {
         return new ResponseEntity<>(QuestionFromDb, HttpStatus.OK);
     }
 
-    // public ResponseEntity<Integer> getScore(int id, List<Response> response) {
+    public ResponseEntity<Integer> getScore(int id, List<Response> response) {
 
-    //     Optional<Quiz> quiz = quizDao.findById(id);
-    //     if (quiz.isEmpty()) {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    //     if (response == null) {
-    //         return ResponseEntity.badRequest().build();
-    //     }
-    //     List<Question> questions = quiz.get().getQuestions();
-    //     Set<Integer> answeredIds = new HashSet<>();
-    //     int count = 0;
-    //     for (Response r : response) {
-    //         if (r == null || r.getResponse() == null || !answeredIds.add(r.getId())) {
-    //             return ResponseEntity.badRequest().build();
-    //         }
-    //         Optional<Question> question = questions.stream()
-    //                 .filter(q -> q.getId() == r.getId()).findFirst();
-    //         if (question.isEmpty()) {
-    //             return ResponseEntity.badRequest().build();
-    //         }
-    //         if (r.getResponse().equals(question.get().getRightAnswer())) {
-    //             count++;
-    //         }
-    //     }
+        Optional<Quiz> quiz = quizDao.findById(id);
+        if (quiz.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        if (response == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        int count = quizInterface.getScore(response).getBody();
+        
+       
+        
 
-    //     return new ResponseEntity<>(count, HttpStatus.OK);
+        return new ResponseEntity<>(count, HttpStatus.OK);
 
-    // }
+    }
 
 }
