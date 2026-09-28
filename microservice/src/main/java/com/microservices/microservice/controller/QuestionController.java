@@ -43,7 +43,7 @@ public class QuestionController {
     @PostMapping("getQuestion")
     public ResponseEntity<List<QuestionWrapper>> getQuestionByIds(@RequestBody List<Integer> questionIds) {
 
-        System.out.println("Controller:" + questionIds);
+        System.out.println("Controller:" + questionIds);System.out.println("Controller:" + questionIds);
 
         return questionService.getQuestionById(questionIds);
 
