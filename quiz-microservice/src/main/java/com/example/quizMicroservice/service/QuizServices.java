@@ -1,10 +1,7 @@
 package com.example.quizMicroservice.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,10 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.quizMicroservice.feign.QuizInterface;
-import com.example.quizMicroservice.model.Question;
 import com.example.quizMicroservice.model.QuestionWrapper;
 import com.example.quizMicroservice.model.Quiz;
-import com.example.quizMicroservice.model.Response;
 import com.example.quizMicroservice.repository.QuizRepo;
 
 
@@ -32,28 +27,36 @@ public class QuizServices {
         List<Integer> questions = quizInterface.getQuestionsByCategory(category,numQ).getBody();
         Quiz quiz = Quiz.builder().quizTitle(title).questionIds(questions).build();
         quizDao.save(quiz);
+        System.out.println("quiz created with id: " + quiz.getId());
         
-        return new ResponseEntity<>("created", HttpStatus.OK);
+        return new ResponseEntity<>("created" , HttpStatus.OK);
     }
 
-    // public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(int id) {
+    public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(int id) {
 
-    //     Optional<Quiz> quiz = quizDao.findById(id);
-    //     if (quiz.isEmpty()) {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    //     // there must be que=estion Wrapper
-    //     List<Question> QuestionFromDb = quiz.get().getQuestions();
-    //     List<QuestionWrapper> QuestionsForUser = new ArrayList<>();
+        Optional<Quiz> quiz = quizDao.findById(id);
+        if (quiz.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
-    //     for (Question q : QuestionFromDb) {
-    //         QuestionWrapper qWrapper = new QuestionWrapper(q.getId(), q.getTitle(), q.getOptions1(), q.getOptions2(),
-    //                 q.getOptions3(), q.getOptions4());
-    //         QuestionsForUser.add(qWrapper);
-    //     }
+        // there must be que=estion Wrapper
+        List<Integer> QuestionIds = quiz.get().getQuestionIds();
 
-    //     return new ResponseEntity<>(QuestionsForUser, HttpStatus.OK);
-    // }
+        System.out.println("quiz: " + quiz);
+        List<QuestionWrapper> QuestionFromDb = quizInterface.getQuestionById(QuestionIds).getBody();
+        // List<QuestionWrapper> QuestionsForUser = new ArrayList<>();
+        
+        
+
+
+        // for (Question q : QuestionFromDb) {
+        //     QuestionWrapper qWrapper = new QuestionWrapper(q.getId(), q.getTitle(), q.getOptions1(), q.getOptions2(),
+        //             q.getOptions3(), q.getOptions4());
+        //     QuestionsForUser.add(qWrapper);
+        // }
+        
+        return new ResponseEntity<>(QuestionFromDb, HttpStatus.OK);
+    }
 
     // public ResponseEntity<Integer> getScore(int id, List<Response> response) {
 

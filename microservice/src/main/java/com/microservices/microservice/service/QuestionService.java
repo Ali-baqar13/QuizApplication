@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.microservices.microservice.model.Question;
 import com.microservices.microservice.model.QuestionWrapper;
@@ -43,26 +40,31 @@ public class QuestionService {
     public ResponseEntity<List<Integer>> getQuestionRandomCategory(String category, int numberOfQuestions) {
         return new ResponseEntity<>(questionRepository.findRandomQuestionsByCategory(category, numberOfQuestions), HttpStatus.OK);
     }
+
     public ResponseEntity<List<QuestionWrapper>> getQuestionById(List<Integer> questionIds) {
+        
         List<Question> questions = new ArrayList<>();
         List<QuestionWrapper> questionWrapper = new ArrayList<>();
         for (Integer id : questionIds) {
-            questionRepository.findById(id).get();
-            //  here i can get all question now i need to make wrappper for user
+    Optional<Question> question = questionRepository.findById(id);
 
-               
-        }
-        for(Question question : questions) {
-             QuestionWrapper qw = QuestionWrapper.builder()
-                .id(question.getId())
-                .title(question.getTitle())
-                .options1(question.getOptions1())
-                .options2(question.getOptions2())
-                .options3(question.getOptions3())
-                .options4(question.getOptions4())
-                .build();
+    if (question.isPresent()) {
+        questions.add(question.get());
+    }
+}
+        System.out.println("questions:" + questions);
+        for (Question question : questions) {
+            QuestionWrapper qw = QuestionWrapper.builder()
+                    .id(question.getId())
+                    .title(question.getTitle())
+                    .options1(question.getOptions1())
+                    .options2(question.getOptions2())
+                    .options3(question.getOptions3())
+                    .options4(question.getOptions4())
+                    .build();
             questionWrapper.add(qw);
         }
+        System.out.println("qw:" + questionWrapper);
         return new ResponseEntity<>(questionWrapper, HttpStatus.OK);
 
         // for(QuestionWrapper question : questions) {

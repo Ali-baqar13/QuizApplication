@@ -34,11 +34,11 @@ public class QuizController {
         return quizService.creatQuiz(quizDto.getTitle(), quizDto.getNumQ(), quizDto.getCategory());
     }
 
-    // @GetMapping("get-quiz/{id}")
-    // public ResponseEntity<List<QuestionWrapper>> getQuiz(@PathVariable int id) {
-    //     return quizService.getQuizQuestions(id);
+    @GetMapping("get-quiz/{id}")
+    public ResponseEntity<List<QuestionWrapper>> getQuiz(@PathVariable int id) {
+        return quizService.getQuizQuestions(id);
 
-    // }
+    }
 
     // @PostMapping("validate/{id}")
     // public ResponseEntity<Integer> validateCount(@PathVariable int id, @RequestBody List<Response> response) {
