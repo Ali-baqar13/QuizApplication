@@ -32,6 +32,14 @@
             "request":"launch",
             "mainClass":"com.eureka.registry.RegistryApplication",
             "projectName":"registry",
+        },
+        {
+            "type":"java",
+            "name":"apigateway",
+            "request":"launch",
+            "mainClass":"com.example.apigateway.ApigatewayApplication",
+            "projectName":"apigateway",
+            "args": "--server.port=8765"
         }
     ]
 }
